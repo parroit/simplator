@@ -1,0 +1,35 @@
+{
+  "name": "simplator",
+  "version": "0.0.1",
+  "description": "A simple, but fast, compilable string template",
+  "keywords": [
+    "template",
+    "string",
+    "format",
+    "replace",
+    "arguments"
+  ],
+  "author": "Andrea Parodi",
+  "repository": "git://github.com/parroit/simplator.git",
+  "main": "index",
+  "homepage": "https://github.com/parroit/simplator",
+    "bugs": {
+    "url": "https://github.com/parroit/simplator/issues",
+    "email": "andrea.parodi@ebansoftware.net"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-mocha-test": "~0.7.0",
+    "expect.js": "*",
+    "tape": "~1.1.1",
+    "grunt-contrib-watch": "~0.5.3"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/parroit/simplator/raw/master/LICENSE"
+    }
+  ]
+
+}

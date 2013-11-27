@@ -29,8 +29,7 @@ var simplate = module.exports = {
 
             }
         });
-        var util = require('util'),
-            vm = require('vm');
+        var util = require('util');
 
 
         var code = "(function(){var context = simplate._getArgs(arguments); return [\"" + template + "\"].join(\"\");})";

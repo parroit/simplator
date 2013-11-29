@@ -1,15 +1,19 @@
-var nargs = /\{([0-9a-zA-Z]+)\}/g;
+var nargs = /\{([\s\w\(\)|\.,#\-%\[\]]+)\}/g;
 var slice = Array.prototype.slice;
+
+var filters = {};
 
 //noinspection JSUnusedGlobalSymbols
 var simplate = module.exports = {
-
+    filter: function (name, it) {
+        filters[name] = it;
+    },
     compile: function (template) {
         template = template
-                .replace(/"/g,"\\\"")
-                .replace(/([\t])/g,"\\t")
-                .replace(/([\r])/g,"\\r")
-                .replace(/([\n])/g,"\\n");
+            .replace(/"/g, "\\\"")
+            .replace(/([\t])/g, "\\t")
+            .replace(/([\r])/g, "\\r")
+            .replace(/([\n])/g, "\\n");
 
         template = template.replace(nargs, function (match, arg, index) {
 
@@ -18,13 +22,52 @@ var simplate = module.exports = {
                 template[index + match.length] === "}") {
                 return arg
             } else {
+                var callIt;
 
-                if (/[a-zA-Z]+/.test(arg))
-                    return "\" , ((context && context."+ arg+") || \"\") , \"";
-                else if (/[0-9]+/.test(arg))
-                    return "\" , ((context && context["+ arg+"]) || \"\") , \"";
-                else
-                    throw new Error("Unknown argument "+arg);
+                function objectCall(args) {
+                    if (/^[\s*a-zA-Z]+/.test(args)) {
+                        return "context." + args;
+                    }
+
+                    if (/^[\s*0-9]+/.test(args)) {
+                        return  "context[" + args + "]";
+                    }
+
+                    throw new Error("Unknown argument " + args);
+
+
+                }
+
+                if (arg.indexOf("|") != -1) {
+                    var parts = arg.split("|", 2).map(function (it) {
+                            return it.trim()
+                        }),
+
+                        argument = parts[0],
+                        filter = parts[1],
+
+                        filterName,
+                        filterArgument;
+
+
+                    if (filter.indexOf("(") != -1){
+
+                        filterName = filter.match(/^(\w*)\(/)[1];
+                        filterArgument = "," + filter.match(/^\w*\((.*)\)/)[1] ;
+
+                    } else {
+                        filterName = filter;
+                        filterArgument = "";
+                    }
+
+
+                    callIt = "filters." + filterName + "(" + objectCall(argument) + filterArgument + ")";
+                    console.log(callIt)
+                } else {
+                    callIt = objectCall(arg);
+                }
+
+                return "\" , ((context && " + callIt + ") || \"\") , \"";
 
 
             }
@@ -36,7 +79,7 @@ var simplate = module.exports = {
 
         return eval(code);
     },
-    _getArgs: function (args){
+    _getArgs: function (args) {
 
         if (args.length === 1 && typeof args[0] === "object") {
             return  args[0];
@@ -44,35 +87,6 @@ var simplate = module.exports = {
             return args;
         }
 
-    },
-    render: function (string) {
-        var args;
-
-        if (arguments.length === 2 && typeof arguments[1] === "object") {
-            args = arguments[1]
-        } else {
-            args = slice.call(arguments, 1)
-        }
-
-        if (!args || !args.hasOwnProperty) {
-            args = {}
-        }
-
-        return string.replace(nargs, function replaceArg(match, i, index) {
-            var result;
-
-            if (string[index - 1] === "{" &&
-                string[index + match.length] === "}") {
-                return i
-            } else {
-                result = args.hasOwnProperty(i) ? args[i] : null;
-                if (result === null || result === undefined) {
-                    return ""
-                }
-
-                return result
-            }
-        })
     }
 };
 

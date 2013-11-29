@@ -179,7 +179,36 @@ function baseTest(format){
 
     });
 
+    describe("filter",function(){
+        it("could be registered", function () {
+            simplate.filter("upper",function(value){return value.toUpperCase()});
 
+        });
+
+        it("is applied to argument", function () {
+            var result = format("Hello {name | upper}", {name:"andrea"});
+            expect(result).to.be.equal( "Hello ANDREA");
+        });
+
+        it("could be trimmed", function () {
+            var result = format("Hello {name|upper}", {name:"andrea"});
+            expect(result).to.be.equal( "Hello ANDREA");
+        });
+
+        it("accept argument", function () {
+            simplate.filter("fix",function(value,digits){return value.toFixed(digits)});
+
+            expect(format("Hello {age | fix(0)}", {age:12})).to.be.equal( "Hello 12");
+            expect(format("Hello {age | fix(2)}", {age:12})).to.be.equal( "Hello 12.00");
+        });
+
+        it("accept multiple argument", function () {
+            simplate.filter("curr",function(value,digits,curr){return (curr ? "$" : "")+value.toFixed(digits)});
+
+            expect(format("Hello {age | curr(2,true)}", {age:12})).to.be.equal( "Hello $12.00");
+            expect(format("Hello {age | curr(2,false)}", {age:12})).to.be.equal( "Hello 12.00");
+        });
+    });
 
 
 
@@ -189,9 +218,6 @@ function baseTest(format){
 
 var simplate = require("../index.js");
 
-describe("direct render",function(){
-    baseTest(simplate.render);
-});
 
 describe("compile and render",function(){
     baseTest(function(format){
@@ -202,7 +228,7 @@ describe("compile and render",function(){
         return tmplt.apply(null, args);
     });
 });
-
+           /*
 describe("run big",function(){
     var bigTemplate = [];
     var bigExpected = [];
@@ -281,7 +307,7 @@ it("render run fast", function () {
 
 
 });
-
+         */
 
 describe("compiler",function(){
     function expectRenderedAs(template,result){

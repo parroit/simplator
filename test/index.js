@@ -228,7 +228,7 @@ describe("compile and render",function(){
         return tmplt.apply(null, args);
     });
 });
-           /*
+
 describe("run big",function(){
     var bigTemplate = [];
     var bigExpected = [];
@@ -263,14 +263,7 @@ describe("run big",function(){
     });
 
 
-    it("render", function () {
 
-
-
-        expect(simplate.render(bigTemplate,ctx)).to.be.equal(bigExpected);
-
-
-    });
 });
 
 it("compile and render run fast", function () {
@@ -291,23 +284,7 @@ it("compile and render run fast", function () {
 
 });
 
-it("render run fast", function () {
 
-    var tmplt="Hello {firstName} {lastName}";
-    var expected = "Hello Andrea Parodi";
-    var ctx = { firstName: "Andrea", lastName: "Parodi"};
-
-
-
-    for (var i=0; i<1000000; i++){
-        if (simplate.render(tmplt,ctx) !== expected)
-            expect(true).to.be.equal(false);
-    }
-
-
-
-});
-         */
 
 describe("compiler",function(){
     function expectRenderedAs(template,result){

@@ -29,7 +29,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-mocha-test');
 
     grunt.registerTask('test', 'mochaTest');
-    grunt.registerTask('run', 'watch');
+    grunt.registerTask('watch-test', 'watch');
 
     
 };

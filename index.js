@@ -1,4 +1,4 @@
-var nargs = /\{([\s\w\(\)|\.,#\-%\[\]]+)\}/g;
+var nargs = /\{([\s\w\(\)|\.,#\-%\[\]\\\\\/&\$"'\?£\^\*\+§ç;:_\-<>@°=]+)\}/g;
 var slice = Array.prototype.slice;
 
 var filters = {};
@@ -10,9 +10,11 @@ var simplate = module.exports = {
     },
     compile: function (template) {
         template = template
+            .replace(/([\\])/g, "\\\\")
             .replace(/"/g, "\\\"")
             .replace(/([\t])/g, "\\t")
             .replace(/([\r])/g, "\\r")
+
             .replace(/([\n])/g, "\\n");
 
         template = template.replace(nargs, function (match, arg, index) {
@@ -62,7 +64,7 @@ var simplate = module.exports = {
 
 
                     callIt = "filters." + filterName + "(" + objectCall(argument) + filterArgument + ")";
-                    console.log(callIt)
+                    //console.log(callIt)
                 } else {
                     callIt = objectCall(arg);
                 }

@@ -185,6 +185,8 @@ function baseTest(format){
 
         });
 
+
+
         it("is applied to argument", function () {
             var result = format("Hello {name | upper}", {name:"andrea"});
             expect(result).to.be.equal( "Hello ANDREA");
@@ -207,6 +209,44 @@ function baseTest(format){
 
             expect(format("Hello {age | curr(2,true)}", {age:12})).to.be.equal( "Hello $12.00");
             expect(format("Hello {age | curr(2,false)}", {age:12})).to.be.equal( "Hello 12.00");
+        });
+
+        it("accept all character", function () {
+            simplate.filter("concat",function(value,concat){return value + concat});
+
+            function checkChar(c){
+                expect(format("Hello {v | concat('"+c+"')}", {v:"c"})).to.be.equal( "Hello c"+c);
+            }
+
+            checkChar("/");
+            checkChar("\\");
+            checkChar("\"");
+            checkChar("$");
+            checkChar("£");
+            checkChar("1");
+            checkChar("a");
+            checkChar("(");
+            checkChar(")");
+            checkChar("=");
+            checkChar("?");
+            checkChar("^");
+            checkChar("*");
+            checkChar("+");
+            checkChar("§");
+            checkChar("@");
+            checkChar("°");
+            checkChar("#");
+            checkChar("ç");
+            checkChar(",");
+            checkChar(".");
+            checkChar(";");
+            checkChar(":");
+            checkChar("_");
+            checkChar("-");
+            checkChar("<");
+            checkChar(">");
+
+
         });
     });
 

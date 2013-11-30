@@ -1,6 +1,9 @@
 {
   "name": "simplator",
   "version": "0.0.5",
+    "scripts": {
+        "test": "grunt test"
+    },
   "description": "A simple, but fast, compilable string template",
   "keywords": [
     "template",

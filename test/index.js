@@ -245,7 +245,7 @@ function baseTest(format){
             checkChar("-");
             checkChar("<");
             checkChar(">");
-
+            checkChar("€");
 
         });
     });

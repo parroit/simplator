@@ -1,5 +1,6 @@
 # simplator
 [![Build Status](https://secure.travis-ci.org/parroit/simplator.png?branch=master)](http://travis-ci.org/parroit/simplator)  [![Npm module](https://badge.fury.io/js/simplator.png)](https://npmjs.org/package/simplator) [![Code Climate](https://codeclimate.com/github/parroit/simplator.png)](https://codeclimate.com/github/parroit/simplator)
+[![Stories in Ready](https://badge.waffle.io/parroit/simplator.png?label=ready)](http://waffle.io/parroit/simplator)
 
 Simple but powerful and fast template for node.js and browser.
 Templates are compiled to javascript before execution.
